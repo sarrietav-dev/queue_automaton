@@ -1,5 +1,7 @@
 import { Graphviz } from "graphviz-react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import katex from "katex";
 
 function App() {
   const dot = `
@@ -23,17 +25,23 @@ function App() {
   `;
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
-      <Graphviz dot={dot} options={{ width: 1000 }} />
-      <div style={{display: "flex"}}>
-        <Stack>
-          <StackItem>#</StackItem>
-        </Stack>
-        <Stack>
-          <StackItem>#</StackItem>
-        </Stack>
+    <>
+      <div style={{ textAlign: "center" }}>
+        <h1>Pushdown Automata</h1>
+        <KatexHeader expression="L = \lbrace  0^i1^{2i}0^i: i\geq0 \rbrace, \text{sobre } \Sigma = \lbrace 0, 1 \rbrace" />
       </div>
-    </div>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <Graphviz dot={dot} options={{ width: 1000 }} />
+        <div style={{ display: "flex" }}>
+          <Stack>
+            <StackItem>#</StackItem>
+          </Stack>
+          <Stack>
+            <StackItem>#</StackItem>
+          </Stack>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -58,5 +66,19 @@ const StackItem = styled.div<{ $color?: string }>`
   justify-content: center;
   border: 1px solid #9ca3af;
 `;
+
+type KatexHeaderProps = {
+  expression: string;
+};
+
+const KatexHeader = ({ expression }: KatexHeaderProps) => {
+  const containerRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    katex.render(expression, containerRef.current as HTMLHeadingElement);
+  }, [expression]);
+
+  return <h2 ref={containerRef}></h2>;
+};
 
 export default App;
