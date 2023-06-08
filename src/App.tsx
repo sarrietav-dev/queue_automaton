@@ -22,9 +22,37 @@ function App() {
   `;
 
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Graphviz dot={dot} />
-    </>
+      <div
+        style={{
+          height: "500px",
+          width: "100px",
+          backgroundColor: "red",
+          display: "flex",
+          flexDirection: "column-reverse",
+          justifyContent: "end",
+        }}>
+        <div
+          style={{
+            height: "100px",
+            width: "100px",
+            backgroundColor: "blue",
+          }}></div>
+        <div
+          style={{
+            height: "100px",
+            width: "100px",
+            backgroundColor: "pink",
+          }}></div>
+        <div
+          style={{
+            height: "100px",
+            width: "100px",
+            backgroundColor: "green",
+          }}></div>
+      </div>
+    </div>
   );
 }
 
