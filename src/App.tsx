@@ -24,36 +24,36 @@ function App() {
   return (
     <div style={{ display: "flex" }}>
       <Graphviz dot={dot} />
-      <div
-        style={{
-          height: "500px",
-          width: "100px",
-          backgroundColor: "red",
-          display: "flex",
-          flexDirection: "column-reverse",
-          justifyContent: "end",
-        }}>
-        <div
-          style={{
-            height: "100px",
-            width: "100px",
-            backgroundColor: "blue",
-          }}></div>
-        <div
-          style={{
-            height: "100px",
-            width: "100px",
-            backgroundColor: "pink",
-          }}></div>
-        <div
-          style={{
-            height: "100px",
-            width: "100px",
-            backgroundColor: "green",
-          }}></div>
-      </div>
+      <Stack>
+        <StackItem>#</StackItem>
+      </Stack>
+      <Stack>
+        <StackItem>#</StackItem>
+      </Stack>
     </div>
   );
 }
+
+const Stack = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: end;
+  height: 500px;
+  width: 100px;
+`;
+
+const StackItem = styled.div<{ $color?: string }>`
+  height: 100px;
+  width: 100px;
+  background-color: ${(props) => props.$color || "#d1d5db"};
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #9ca3af;
+`;
 
 export default App;
