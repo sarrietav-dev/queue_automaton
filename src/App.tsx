@@ -1,11 +1,16 @@
 import { Graphviz } from "graphviz-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import katex from "katex";
 import { useAutomaton } from "./context";
 
 function App() {
   const automaton = useAutomaton();
+  const [input, setInput] = useState("");
+
+  const handleInput = () => {
+    automaton.evaluate(input);
+  };
 
   const dot = `
   digraph finite_state_machine {
@@ -22,13 +27,27 @@ function App() {
 
     # node [shape = circle, color = green]; q2;
     qi -> q0;
-    q0 -> q1 [ color=${automaton.lastTransition === "q0 -> q1" ? "green" : "black"}, label = "1. 0,# / AA#\n\n2. 0,# / B#"];
-    q1 -> q1 [ color=${automaton.lastTransition === "q1 -> q1" ? "green" : "black"}, label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
-    q1 -> q2 [ color=${automaton.lastTransition === "q1 -> q2" ? "green" : "black"}, label = "1. A / &lambda;" ];
-    q2 -> q2 [ color=${automaton.lastTransition === "q2 -> q2" ? "green" : "black"}, label = "1. A / &lambda;" ];
-    q2 -> q3 [ color=${automaton.lastTransition === "q2 -> q3" ? "green" : "black"}, label = "2. B / &lambda;" ];
-    q3 -> q3 [ color=${automaton.lastTransition === "q3 -> q3" ? "green" : "black"}, label = "2. B / &lambda;" ];
-    q3 -> q4 [ color=${automaton.lastTransition === "q3 -> q4" ? "green" : "black"}, label = "2. &lambda;, # / #" ];
+    q0 -> q1 [ color=${
+      automaton.lastTransition === "q0 -> q1" ? "green" : "black"
+    }, label = "1. 0,# / AA#\n\n2. 0,# / B#"];
+    q1 -> q1 [ color=${
+      automaton.lastTransition === "q1 -> q1" ? "green" : "black"
+    }, label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
+    q1 -> q2 [ color=${
+      automaton.lastTransition === "q1 -> q2" ? "green" : "black"
+    }, label = "1. A / &lambda;" ];
+    q2 -> q2 [ color=${
+      automaton.lastTransition === "q2 -> q2" ? "green" : "black"
+    }, label = "1. A / &lambda;" ];
+    q2 -> q3 [ color=${
+      automaton.lastTransition === "q2 -> q3" ? "green" : "black"
+    }, label = "2. B / &lambda;" ];
+    q3 -> q3 [ color=${
+      automaton.lastTransition === "q3 -> q3" ? "green" : "black"
+    }, label = "2. B / &lambda;" ];
+    q3 -> q4 [ color=${
+      automaton.lastTransition === "q3 -> q4" ? "green" : "black"
+    }, label = "2. &lambda;, # / #" ];
 }
   `;
 
@@ -37,6 +56,33 @@ function App() {
       <div style={{ textAlign: "center" }}>
         <h1>Pushdown Automata</h1>
         <KatexHeader expression="L = \lbrace  0^i1^{2i}0^i: i\geq0 \rbrace, \text{sobre } \Sigma = \lbrace 0, 1 \rbrace" />
+        <label htmlFor="input">Input: </label>
+        <input
+          type="text"
+          name="input"
+          id="input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button
+          type="button"
+          onClick={handleInput}
+          style={{
+            backgroundColor: "#2563EB",
+            color: "white",
+            padding: "0.5rem 1rem",
+            borderRadius: "0.5rem",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            margin: "0 0.5rem",
+          }}
+        >
+          <span role="img" aria-label="play">
+            ▶️
+          </span>
+        </button>
       </div>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <Graphviz dot={dot} options={{ width: 1000 }} />
