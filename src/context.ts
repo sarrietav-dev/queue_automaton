@@ -115,35 +115,46 @@ function evaluate(input: string, state: AutomatonState): AutomatonState {
 
   const transition = transitions[input];
 
+  let stack1 = [...state.stack1];
+  let stack2 = [...state.stack2];
+  let newState = state.currentState;
+  let isHalted = true;
+
   for (const t of transition) {
-    const { stack: stackNumber, pop, push, state: newState } = t;
+    var { stack: stackNumber, pop, push, state: nextState } = t;
     const stack = stackNumber === 1 ? state.stack1 : state.stack2;
 
     const lastElement = stack.pop();
     if (lastElement !== pop) {
       stack.push(lastElement!);
       continue;
-    };
+    }
+
+    isHalted = false;
 
     push.forEach((e) => stack.push(e));
 
-    return stackNumber === 1
-      ? {
-          ...state,
-          stack1: stack,
-          currentState: newState,
-          lastTransition: `${state.currentState} -> ${newState}`,
-        }
-      : {
-          ...state,
-          stack2: stack,
-          currentState: newState,
-          lastTransition: `${state.currentState} -> ${newState}`,
-        };
+    if (stackNumber === 1) {
+      stack1 = stack;
+    } else {
+      stack2 = stack;
+    }
+
+    newState = nextState;
+  }
+
+  if (isHalted) {
+    return {
+      ...state,
+      currentState: "HALTED",
+    };
   }
 
   return {
     ...state,
-    currentState: "HALTED",
+    stack1,
+    stack2,
+    currentState: newState,
+    lastTransition: `${state.currentState} -> ${newState}`,
   };
 }
