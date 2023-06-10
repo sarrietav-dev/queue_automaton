@@ -88,10 +88,14 @@ function App() {
         <Graphviz dot={dot} options={{ width: 1000 }} />
         <div style={{ display: "flex" }}>
           <Stack>
-            <StackItem>#</StackItem>
+            {automaton.stack1.map((item, index) => (
+              <StackItem key={index}>{item}</StackItem>
+            ))}
           </Stack>
           <Stack>
-            <StackItem>#</StackItem>
+            {automaton.stack2.map((item, index) => (
+              <StackItem key={index}>{item}</StackItem>
+            ))}
           </Stack>
         </div>
       </div>
