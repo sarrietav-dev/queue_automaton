@@ -9,7 +9,7 @@ function App() {
   const [input, setInput] = useState("");
 
   const handleInput = () => {
-    automaton.evaluate(input);
+    automaton.evaluate(input[0]);
   };
 
   const dot = `
