@@ -2,25 +2,33 @@ import { Graphviz } from "graphviz-react";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import katex from "katex";
+import { useAutomaton } from "./context";
 
 function App() {
+  const automaton = useAutomaton();
+
   const dot = `
   digraph finite_state_machine {
     rankdir=LR;
 
     node [shape = circle];
     qi[color=white, shape=point];
+    q0[color=${automaton.currentState === "q0" ? "green" : "black"}];
+    q1[color=${automaton.currentState === "q1" ? "green" : "black"}];
+    q2[color=${automaton.currentState === "q2" ? "green" : "black"}];
+    q3[color=${automaton.currentState === "q3" ? "green" : "black"}];
+    q4[color=${automaton.currentState === "q4" ? "green" : "black"}];
     q4[shape = doublecircle];
 
     # node [shape = circle, color = green]; q2;
     qi -> q0;
-    q0 -> q1 [ label = "1. 0,# / AA#\n\n2. 0,# / B#"];
-    q1 -> q1 [ label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
-    q1 -> q2 [ label = "1. A / &lambda;" ];
-    q2 -> q2 [ label = "1. A / &lambda;" ];
-    q2 -> q3 [ label = "2. B / &lambda;" ];
-    q3 -> q3 [ label = "2. B / &lambda;" ];
-    q3 -> q4 [ label = "2. &lambda;, # / #" ];
+    q0 -> q1 [ color=${automaton.lastTransition === "q0 -> q1" ? "green" : "black"}, label = "1. 0,# / AA#\n\n2. 0,# / B#"];
+    q1 -> q1 [ color=${automaton.lastTransition === "q1 -> q1" ? "green" : "black"}, label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
+    q1 -> q2 [ color=${automaton.lastTransition === "q1 -> q2" ? "green" : "black"}, label = "1. A / &lambda;" ];
+    q2 -> q2 [ color=${automaton.lastTransition === "q2 -> q2" ? "green" : "black"}, label = "1. A / &lambda;" ];
+    q2 -> q3 [ color=${automaton.lastTransition === "q2 -> q3" ? "green" : "black"}, label = "2. B / &lambda;" ];
+    q3 -> q3 [ color=${automaton.lastTransition === "q3 -> q3" ? "green" : "black"}, label = "2. B / &lambda;" ];
+    q3 -> q4 [ color=${automaton.lastTransition === "q3 -> q4" ? "green" : "black"}, label = "2. &lambda;, # / #" ];
 }
   `;
 

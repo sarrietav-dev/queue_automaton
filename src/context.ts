@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 type StackAlphabet = "#" | "A" | "B";
 type PossibleStates = "q0" | "q1" | "q2" | "q3" | "q4" | "HALTED";
+type Transition = `${PossibleStates} -> ${PossibleStates}`;
 
 type RuleType = {
   [key: string]: {
@@ -97,7 +98,7 @@ type AutomatonState = {
   stack1: string[];
   stack2: string[];
   currentState: PossibleStates;
-  lastTransition: string;
+  lastTransition: Transition | "";
   evaluate: (input: string) => void;
 };
 
