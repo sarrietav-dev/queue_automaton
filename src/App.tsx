@@ -9,7 +9,15 @@ function App() {
   const [input, setInput] = useState("");
 
   const handleInput = () => {
-    automaton.evaluate(input[0]);
+    const inputArray = input.split("");
+    let i = 0;
+
+    setInterval(() => {
+      if (i < inputArray.length) {
+        automaton.evaluate(inputArray[i]);
+        i++;
+      }
+    }, 1000);
   };
 
   const dot = `
