@@ -120,7 +120,10 @@ function evaluate(input: string, state: AutomatonState): AutomatonState {
     const stack = stackNumber === 1 ? state.stack1 : state.stack2;
 
     const lastElement = stack.pop();
-    if (lastElement !== pop) continue;
+    if (lastElement !== pop) {
+      stack.push(lastElement!);
+      continue;
+    };
 
     push.forEach((e) => stack.push(e));
 
