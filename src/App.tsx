@@ -16,6 +16,8 @@ function App() {
       if (i < inputArray.length) {
         automaton.evaluate(inputArray[i]);
         i++;
+      } else {
+        automaton.evaluate("");
       }
     }, 1000);
   };
