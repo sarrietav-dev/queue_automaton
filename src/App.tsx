@@ -12,12 +12,15 @@ function App() {
     const inputArray = input.split("");
     let i = 0;
 
-    setInterval(() => {
+    let interval = setInterval(() => {
       if (i < inputArray.length) {
         automaton.evaluate(inputArray[i]);
         i++;
+      } else if (automaton.currentState === "HALTED") {
+        clearInterval(interval);
       } else {
         automaton.evaluate("");
+        clearInterval(interval);
       }
     }, 1000);
   };
@@ -97,6 +100,11 @@ function App() {
             ▶️
           </span>
         </button>
+        <div>
+          {automaton.currentState === "HALTED" && (
+            <p style={{ color: "red" }}>Rechazado</p>
+          )}
+        </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <Graphviz dot={dot} options={{ width: 1000 }} />

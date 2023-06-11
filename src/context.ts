@@ -111,13 +111,24 @@ export const useAutomaton = create<AutomatonState>()((set) => ({
 }));
 
 function evaluate(input: string, state: AutomatonState): AutomatonState {
+  if (state.currentState === "HALTED") {
+    return state;
+  }
+
   const transitions = rules[state.currentState];
 
   const transition = transitions[input];
 
+  if (!transition) {
+    return {
+      ...state,
+      currentState: "HALTED",
+    };
+  }
+
   let stack1 = [...state.stack1];
   let stack2 = [...state.stack2];
-  let newState = state.currentState;
+  let newState: PossibleStates = state.currentState;
   let isHalted = true;
 
   for (const t of transition) {
