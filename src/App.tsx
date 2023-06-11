@@ -39,22 +39,22 @@ function App() {
     qi -> q0;
     q0 -> q1 [ color=${
       automaton.lastTransition === "q0 -> q1" ? "green" : "black"
-    }, label = "1. 0,# / AA#\n\n2. 0,# / B#"];
+    }, label = "1. 0, # / AA#\n\n2. 0,# / B#"];
     q1 -> q1 [ color=${
       automaton.lastTransition === "q1 -> q1" ? "green" : "black"
-    }, label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
+    }, label = "1. 0, A / AAA\n\n2. 0,B / BB" ];
     q1 -> q2 [ color=${
       automaton.lastTransition === "q1 -> q2" ? "green" : "black"
-    }, label = "1. A / &lambda;" ];
+    }, label = "1. 1, A / &lambda;" ];
     q2 -> q2 [ color=${
       automaton.lastTransition === "q2 -> q2" ? "green" : "black"
-    }, label = "1. A / &lambda;" ];
+    }, label = "1. 1, A / &lambda;" ];
     q2 -> q3 [ color=${
       automaton.lastTransition === "q2 -> q3" ? "green" : "black"
-    }, label = "2. B / &lambda;" ];
+    }, label = "2. 0, B / &lambda;" ];
     q3 -> q3 [ color=${
       automaton.lastTransition === "q3 -> q3" ? "green" : "black"
-    }, label = "2. B / &lambda;" ];
+    }, label = "2. 0, B / &lambda;" ];
     q3 -> q4 [ color=${
       automaton.lastTransition === "q3 -> q4" ? "green" : "black"
     }, label = "2. &lambda;, # / #" ];
