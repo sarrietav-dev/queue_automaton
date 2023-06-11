@@ -9,7 +9,20 @@ function App() {
   const [input, setInput] = useState("");
 
   const handleInput = () => {
-    automaton.evaluate(input);
+    const inputArray = input.split("");
+    let i = 0;
+
+    let interval = setInterval(() => {
+      if (i < inputArray.length) {
+        automaton.evaluate(inputArray[i]);
+        i++;
+      } else if (automaton.currentState === "HALTED") {
+        clearInterval(interval);
+      } else {
+        automaton.evaluate("");
+        clearInterval(interval);
+      }
+    }, 1000);
   };
 
   const dot = `
@@ -29,22 +42,22 @@ function App() {
     qi -> q0;
     q0 -> q1 [ color=${
       automaton.lastTransition === "q0 -> q1" ? "green" : "black"
-    }, label = "1. 0,# / AA#\n\n2. 0,# / B#"];
+    }, label = "1. 0, # / AA#\n\n2. 0,# / B#"];
     q1 -> q1 [ color=${
       automaton.lastTransition === "q1 -> q1" ? "green" : "black"
-    }, label = "1. 0,A / AAA\n\n2. 0,B / BB" ];
+    }, label = "1. 0, A / AAA\n\n2. 0,B / BB" ];
     q1 -> q2 [ color=${
       automaton.lastTransition === "q1 -> q2" ? "green" : "black"
-    }, label = "1. A / &lambda;" ];
+    }, label = "1. 1, A / &lambda;" ];
     q2 -> q2 [ color=${
       automaton.lastTransition === "q2 -> q2" ? "green" : "black"
-    }, label = "1. A / &lambda;" ];
+    }, label = "1. 1, A / &lambda;" ];
     q2 -> q3 [ color=${
       automaton.lastTransition === "q2 -> q3" ? "green" : "black"
-    }, label = "2. B / &lambda;" ];
+    }, label = "2. 0, B / &lambda;" ];
     q3 -> q3 [ color=${
       automaton.lastTransition === "q3 -> q3" ? "green" : "black"
-    }, label = "2. B / &lambda;" ];
+    }, label = "2. 0, B / &lambda;" ];
     q3 -> q4 [ color=${
       automaton.lastTransition === "q3 -> q4" ? "green" : "black"
     }, label = "2. &lambda;, # / #" ];
@@ -62,7 +75,11 @@ function App() {
           name="input"
           id="input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.match(/^[01]*$/)) {
+              setInput(e.target.value);
+            }
+          }}
         />
         <button
           type="button"
@@ -83,15 +100,24 @@ function App() {
             ▶️
           </span>
         </button>
+        <div>
+          {automaton.currentState === "HALTED" && (
+            <p style={{ color: "red" }}>Rechazado</p>
+          )}
+        </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <Graphviz dot={dot} options={{ width: 1000 }} />
         <div style={{ display: "flex" }}>
           <Stack>
-            <StackItem>#</StackItem>
+            {automaton.stack1.map((item, index) => (
+              <StackItem key={index}>{item}</StackItem>
+            ))}
           </Stack>
           <Stack>
-            <StackItem>#</StackItem>
+            {automaton.stack2.map((item, index) => (
+              <StackItem key={index}>{item}</StackItem>
+            ))}
           </Stack>
         </div>
       </div>
