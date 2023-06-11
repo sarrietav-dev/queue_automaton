@@ -154,6 +154,12 @@ function evaluate(input: string, state: AutomatonState): AutomatonState {
     newState = nextState;
   }
 
+  if (state.currentState === "q3" && input === "") {
+    if (stack1.length > 1 || stack2.length > 1) {
+      isHalted = true;
+    }
+  }
+
   if (isHalted) {
     return {
       ...state,
