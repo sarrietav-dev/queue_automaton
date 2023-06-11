@@ -72,7 +72,11 @@ function App() {
           name="input"
           id="input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.match(/^[01]*$/)) {
+              setInput(e.target.value);
+            }
+          }}
         />
         <button
           type="button"
