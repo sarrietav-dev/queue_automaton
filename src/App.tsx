@@ -65,7 +65,7 @@ function App() {
   `;
 
   return (
-    <>
+    <Container>
       <div style={{ textAlign: "center" }}>
         <h1>Pushdown Automata</h1>
         <KatexHeader expression="L = \lbrace  0^i1^{2i}0^i: i\geq0 \rbrace, \text{sobre } \Sigma = \lbrace 0, 1 \rbrace" />
@@ -121,9 +121,14 @@ function App() {
           </Stack>
         </div>
       </div>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1500px;
+  margin: 0 auto;
+`
 
 const Stack = styled.div`
   display: flex;
